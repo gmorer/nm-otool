@@ -6,13 +6,14 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2017/12/14 17:28:26 by gmorer           ###   ########.fr        #
+#    Updated: 2017/12/14 18:23:54 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
 NAME= nm
 CPATH= src/
+FLAG= -Weverything
 OPATH= obj/
 HPATH= inc/
 CFILES= main.c
@@ -30,7 +31,7 @@ $(NAME): $(OBJ)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-	$(CC) $(INC) $< -c -o $@
+	$(CC) $(FLAG) $(INC) $< -c -o $@
 
 clean:
 	rm -rf $(OBJ)
