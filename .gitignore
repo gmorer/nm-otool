@@ -1,0 +1,9 @@
+nm
+otool
+.git
+nm_source/obj
+otool_source/obj
+otool_source/otool
+nm_source/nm
+*.swp
+*.o
