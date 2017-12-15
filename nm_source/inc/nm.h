@@ -19,6 +19,8 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 
+# define MAGIC_ELF 0x464C457F
+
 enum e_rror
 {
 	ARG = 1,

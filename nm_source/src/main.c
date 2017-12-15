@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "nm.h"
+#include <stdio.h>
 
 void error(enum e_rror error)
 {
@@ -27,12 +28,17 @@ void error(enum e_rror error)
 		write(2, "error during mmap\n", 18);
 	exit(error + 1);
 }
-/*
-int	arch_separator(void *bin)
-{
 
+static int	arch_separator(void *bin)
+{
+	int	magic_number;
+
+	magic_number = *(int*)bin;
+	if (magic_number == MAGIC_ELF)
+		printf("executable\n");
+	return (1);
 }
-*/
+
 int main(int ac, char **av)
 {
 	int			fd;
@@ -49,6 +55,7 @@ int main(int ac, char **av)
 					fd, 0)) == MAP_FAILED)
 		error(MMAP);
 	/* code here */
+	arch_separator(bin);
 
 
 	/* end of the code */
