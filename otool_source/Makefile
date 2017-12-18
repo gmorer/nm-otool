@@ -10,8 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC= clang
+CC= gcc
 NAME= otool
+FLAG= -Werror -Wextra -Wall
 CPATH= src/
 OPATH= obj/
 HPATH= inc/

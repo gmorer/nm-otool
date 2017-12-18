@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
+# include <linux/elf.h>
 
 # define MAGIC_ELF 0x464C457F
 
@@ -27,9 +28,11 @@ enum e_rror
 	OPEN,
 	CLOSE,
 	FSTAT,
-	MMAP
+	MMAP,
+	ARCH_ERR
 };
 
-void  error (enum e_rror error) __attribute__((noreturn));
+int		elf_nm(char *bin, int arch);
+void 	error (enum e_rror error) __attribute__((noreturn));
 
 #endif

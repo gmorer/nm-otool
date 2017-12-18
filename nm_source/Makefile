@@ -10,13 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC= clang
+CC= gcc
 NAME= nm
 CPATH= src/
-FLAG= -Weverything
+FLAG= -Wall -Werror -Wextra
 OPATH= obj/
 HPATH= inc/
-CFILES= main.c
+CFILES= main.c \
+		elf_nm.c
 OFILES= $(CFILES:.c=.o)
 HFILES= inc/nm.h
 OBJ= $(addprefix $(OPATH), $(OFILES))

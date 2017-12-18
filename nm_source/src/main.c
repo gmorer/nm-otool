@@ -26,16 +26,22 @@ void error(enum e_rror error)
 		write(2, "error during fstat\n", 19);
 	if (error == MMAP)
 		write(2, "error during mmap\n", 18);
+	if (error == ARCH_ERR)
+		write(2, "error: unknow architecture\n", 27);
 	exit(error + 1);
 }
 
-static int	arch_separator(void *bin)
+static int	arch_separator(char *bin)
 {
-	int	magic_number;
-
-	magic_number = *(int*)bin;
-	if (magic_number == MAGIC_ELF)
-		printf("executable\n");
+	if (*(int*)bin == MAGIC_ELF)
+	{
+		if (bin[4] == 1 || bin[4] == 2)
+			elf_nm(bin, bin[4] == 1 ? 32 : 64);
+		else
+			error(ARCH_ERR);
+	}
+	else
+		error(ARCH_ERR);
 	return (1);
 }
 
