@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/15 16:19:10 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/15 17:44:01 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void print_o(size_t offset)
 	char	*tab = "0000000000000000";
 
 	i = 0;
-	while (offset > 10)
+	while (offset > 15)
 	{
 		offset = offset / 16;
 		i++;
