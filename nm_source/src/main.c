@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2017/12/14 19:14:26 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/15 16:17:20 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,31 @@ void error(enum e_rror error)
 	write(2, "nm: ", 4);
 	if (error == ARG)
 		write(2, "usage: nm [FILE]\n", 17);
-	if (error == OPEN)
+	else if (error == OPEN)
 		write(2, "cant open the file\n", 19);
-	if (error == CLOSE)
+	else if (error == MALLOC)
+		write(2, "error: malloc error\n", 19);
+	else if (error == CLOSE)
 		write(2, "cant close the file\n", 20);
-	if (error == CLOSE)
+	else if (error == FSTAT)
 		write(2, "error during fstat\n", 19);
-	if (error == MMAP)
+	else if (error == MMAP)
 		write(2, "error during mmap\n", 18);
-	if (error == ARCH_ERR)
+	else if (error == ARCH_ERR)
 		write(2, "error: unknow architecture\n", 27);
+	else if (error == CORR_BIN)
+		write(2, "error: corrupted file\n", 22);
 	exit(error + 1);
 }
 
-static int	arch_separator(char *bin)
+static int	arch_separator(char *bin, size_t bin_size)
 {
-	if (*(int*)bin == MAGIC_ELF)
+	t_list		*list;
+	if (*(unsigned int*)bin == MH_MAGIC_64)
 	{
-		if (bin[4] == 1 || bin[4] == 2)
-			elf_nm(bin, bin[4] == 1 ? 32 : 64);
-		else
-			error(ARCH_ERR);
+		list = mach_o(bin, bin_size);
+		sort(list);
+		print(list);
 	}
 	else
 		error(ARCH_ERR);
@@ -61,7 +65,7 @@ int main(int ac, char **av)
 					fd, 0)) == MAP_FAILED)
 		error(MMAP);
 	/* code here */
-	arch_separator(bin);
+	arch_separator(bin, metadata.st_size);
 
 
 	/* end of the code */

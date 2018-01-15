@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:19:32 by gmorer            #+#    #+#             */
-/*   Updated: 2017/12/14 18:58:31 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/15 11:58:21 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
-# include <linux/elf.h>
+# include <mach-o/loader.h>
+# include <mach-o/nlist.h>
 
 # define MAGIC_ELF 0x464C457F
 
@@ -29,10 +30,33 @@ enum e_rror
 	CLOSE,
 	FSTAT,
 	MMAP,
-	ARCH_ERR
+	MALLOC,
+	ARCH_ERR,
+	CORR_BIN
 };
+/*
+enum e_type
+{
+	UNKNOW
+};
+*/
+typedef struct s_data
+{
+	char		*name;
+//	enum e_type	type;
+	char		type;
+	size_t		offset;
+}				t_data;
 
-int		elf_nm(char *bin, int arch);
+typedef struct s_list
+{
+	t_data		data;
+	struct s_list*		next;
+}				t_list;
+
+t_list	*mach_o(char *bin, size_t bin_size);
+void	print(t_list *list);
 void 	error (enum e_rror error) __attribute__((noreturn));
+void	sort(t_list *head);
 
 #endif
