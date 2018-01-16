@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/15 16:17:20 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/16 12:58:45 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,19 @@ void error(enum e_rror error)
 static int	arch_separator(char *bin, size_t bin_size)
 {
 	t_list		*list;
+	char		arch;
+
 	if (*(unsigned int*)bin == MH_MAGIC_64)
-	{
-		list = mach_o(bin, bin_size);
-		sort(list);
-		print(list);
-	}
+		list = mach_o(bin, bin_size,
+				(arch = 64));
+	else if (*(unsigned int*)bin == MH_MAGIC)
+		list = mach_o(bin, bin_size,
+				(arch = 32));
 	else
 		error(ARCH_ERR);
+	sort(list);
+	print(list, arch);
+	free_list(list);
 	return (1);
 }
 

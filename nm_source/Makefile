@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2018/01/15 11:59:01 by gmorer           ###   ########.fr        #
+#    Updated: 2018/01/16 12:22:13 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ HPATH= inc/
 CFILES= main.c \
 		mach_o.c \
 		sort.c \
-		print.c
+		print.c \
+		list.c
 OFILES= $(CFILES:.c=.o)
 HFILES= inc/nm.h
 OBJ= $(addprefix $(OPATH), $(OFILES))

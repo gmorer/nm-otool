@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/16 11:11:01 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/16 13:00:56 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@ static void	ft_putstr(char *str)
 		i++;
 	write(1, str, i);
 	return ;
-}
-
-static void print_o(size_t offset)
-{
-	int		i;
-	char	*tab = "0000000000000000";
-
-	i = 0;
-	while (offset > 15)
-	{
-		offset = offset / 16;
-		i++;
-	}
-	write(1, tab, 15 - i);
 }
 
 static void	print_hex(char c)
@@ -67,17 +53,31 @@ static void	print_address(void *addr)
 	}
 }
 
-void		print(t_list *list)
+static void print_o(size_t offset, char arch)
+{
+	int		i;
+	size_t	save;
+	char	*tab = "0000000000000000";
+
+	i = 0;
+	save = offset;
+	while (offset > 15)
+	{
+		offset = offset / 16;
+		i++;
+	}
+	write(1, tab, arch == 64 ? 15 - i : 7 - i);
+	print_address((void*)save);
+}
+
+void		print(t_list *list, char arch)
 {
 	while(list)
 	{
-		if (list->data.offset == 0)
-			write(1, "                ", 16);
+		if (list->data.type == 1)
+			write(1, "                ", arch == 32 ? 8 : 16);
 		else
-		{
-			print_o(list->data.offset);
-			print_address((void*)list->data.offset);
-		}
+			print_o(list->data.offset, arch);
 		if (list->data.type == 15)
 			write(1, " T ", 3);
 		else if (list->data.type == 14)
