@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/15 17:44:01 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/16 11:11:01 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void		print(t_list *list)
 			write(1, " T ", 3);
 		else if (list->data.type == 14)
 			write(1, " t ", 3);
+		else if (list->data.type == 8)
+			write(1, " b ", 3);
 		else if (list->data.type == 1)
 			write(1, " U ", 3);
 		else

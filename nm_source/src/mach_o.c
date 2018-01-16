@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/15 16:17:12 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/16 11:11:06 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	new_elem(struct nlist_64 element, char *stringtable, t_list **head)
 		if ((*head = malloc(sizeof(t_list))) == NULL)
 			error(MALLOC);
 		(*head)->data.name = stringtable + element.n_un.n_strx;
-		(*head)->data.type = element.n_type;
+		(*head)->data.type = element.n_sect == 8 ? 8 : element.n_type;
 		(*head)->data.offset = element.n_value;
 		(*head)->next = NULL;
 		return ;
@@ -57,7 +57,7 @@ static void	new_elem(struct nlist_64 element, char *stringtable, t_list **head)
 	if ((tmp->next = malloc(sizeof(t_list))) == NULL)
 		error(MALLOC);
 	tmp->next->data.name = stringtable + element.n_un.n_strx;
-	tmp->next->data.type = element.n_type;
+	tmp->next->data.type = element.n_sect == 8 ? 8 : element.n_type;
 	tmp->next->data.offset = element.n_value;
 	tmp->next->next = NULL;
 	return ;
