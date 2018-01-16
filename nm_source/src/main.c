@@ -6,14 +6,14 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/16 12:58:45 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/16 13:04:36 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 #include <stdio.h>
 
-void error(enum e_rror error)
+void		error(enum e_rror error)
 {
 	write(2, "nm: ", 4);
 	if (error == ARG)
@@ -54,7 +54,7 @@ static int	arch_separator(char *bin, size_t bin_size)
 	return (1);
 }
 
-int main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	int			fd;
 	struct stat	metadata;
@@ -69,11 +69,7 @@ int main(int ac, char **av)
 	if ((bin = mmap(0, (size_t)metadata.st_size, PROT_READ, MAP_PRIVATE,
 					fd, 0)) == MAP_FAILED)
 		error(MMAP);
-	/* code here */
 	arch_separator(bin, metadata.st_size);
-
-
-	/* end of the code */
 	if (munmap(bin, (size_t)metadata.st_size) == -1)
 		error(MMAP);
 	if (close(fd) == -1)
