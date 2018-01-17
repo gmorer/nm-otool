@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/16 13:04:36 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/17 16:22:31 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		error(enum e_rror error)
 	exit(error + 1);
 }
 
-static int	arch_separator(char *bin, size_t bin_size)
+static int	arch_separator(char *bin, size_t bin_size, char *name)
 {
 	t_list		*list;
 	char		arch;
@@ -46,6 +46,15 @@ static int	arch_separator(char *bin, size_t bin_size)
 	else if (*(unsigned int*)bin == MH_MAGIC)
 		list = mach_o(bin, bin_size,
 				(arch = 32));
+	else if (*(unsigned int*)bin == FAT_MAGIC_64)
+		list = fat_o(bin, bin_size,
+				(arch = 32), name);
+	else if (*(unsigned int*)bin == FAT_CIGAM)
+		list = fat_o(reverse_endian(bin, bin_size), bin_size,
+				(arch = 32), name);
+	else if (*(unsigned int*)bin == FAT_MAGIC)
+		list = fat_o(bin, bin_size,
+				(arch = 32), name);
 	else
 		error(ARCH_ERR);
 	sort(list);
@@ -66,10 +75,10 @@ int			main(int ac, char **av)
 		error(OPEN);
 	if (fstat(fd, &metadata) == -1)
 		error(FSTAT);
-	if ((bin = mmap(0, (size_t)metadata.st_size, PROT_READ, MAP_PRIVATE,
+	if ((bin = mmap(0, (size_t)metadata.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
 					fd, 0)) == MAP_FAILED)
 		error(MMAP);
-	arch_separator(bin, metadata.st_size);
+	arch_separator(bin, metadata.st_size, av[1]);
 	if (munmap(bin, (size_t)metadata.st_size) == -1)
 		error(MMAP);
 	if (close(fd) == -1)

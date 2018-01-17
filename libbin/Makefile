@@ -5,40 +5,40 @@
 #                                                     +:+ +:+         +:+      #
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2018/01/17 16:51:37 by gmorer           ###   ########.fr        #
+#    Created: 2015/12/01 11:36:51 by gmorer            #+#    #+#              #
+#    Updated: 2018/01/17 16:15:26 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NM_PATH= nm_source
-OTOOL_PATH= otool_source
-LIBBIN_PATH= libbin
-NM= nm
-OTOOL= otool
+NAME = libbin.a
+CC = clang
+CFLAGS= -Wall -Werror -Wextra
+CPATH = src/
+HPATH = inc/
+OPATH = obj/
+CFILES =	endian.c\
+			cpu_type.c
 
-.PHONY: all clean fclean re nm otool
+HFILES = inc/libbin.h
+INC = $(addprefix -I , $(HPATH))
+OBJ = $(addprefix $(OPATH), $(CFILES:.c=.o))
 
-all: nm otool
+.PHONY: all clean fclean re
 
-libbin:
-	make -C libbin
+all: $(NAME)
 
-nm:
-	make -C $(NM_PATH)
-	cp $(NM_PATH)/$(NM) .
+$(NAME) : $(OBJ)
+	ar -rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
-otool:
-	make -C $(OTOOL_PATH)
-	cp $(OTOOL_PATH)/$(OTOOL) .
+$(OPATH)%.o : $(CPATH)%.c $(HFILES)
+	@mkdir -p $(OPATH)
+	$(CC) $(INC) $< -c -o $@
 
-clean:
-	make clean -C $(NM_PATH)
-	make clean -C $(OTOOL_PATH)
+clean :
+	rm -f $(OBJ)
 
-fclean: clean
-	make fclean -C $(NM_PATH)
-	make fclean -C $(OTOOL_PATH)
-	rm $(NM)
-	rm $(OTOOL)
+fclean : clean
+	rm -f $(NAME)
 
-re: fclean all
+re : fclean all

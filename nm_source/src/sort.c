@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 14:52:06 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/13 14:59:37 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/17 15:17:17 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_strcmp(const char *s1, const char *s2)
 
 static int	is_sorted(t_list *list)
 {
-	while (list->next)
+	while (list && list->next)
 	{
 		if (ft_strcmp(list->data.name, list->next->data.name) > 0)
 			return (0);
@@ -46,7 +46,7 @@ void		sort(t_list *head)
 {
 	t_data	tmp;
 	t_list	*list;
-	while (!is_sorted(head))
+	while (head && !is_sorted(head))
 	{
 		list = head;
 		while (list->next)

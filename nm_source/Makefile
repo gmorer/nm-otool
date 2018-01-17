@@ -6,23 +6,25 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2018/01/16 12:22:13 by gmorer           ###   ########.fr        #
+#    Updated: 2018/01/17 16:21:17 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
-NAME= nm
+NAME= ft_nm
 CPATH= src/
 FLAG= -Wall -Werror -Wextra
 OPATH= obj/
-HPATH= inc/
+HPATH= inc/ ../libbin/inc/
 CFILES= main.c \
 		mach_o.c \
 		sort.c \
 		print.c \
-		list.c
+		list.c \
+		fat_mach.c
 OFILES= $(CFILES:.c=.o)
-HFILES= inc/nm.h
+HFILES= inc/nm.h\
+		../libbin/inc/libbin.h
 OBJ= $(addprefix $(OPATH), $(OFILES))
 INC= $(addprefix -I, $(HPATH))
 
@@ -31,11 +33,11 @@ INC= $(addprefix -I, $(HPATH))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ) ../libbin/libbin.a -o $(NAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-	$(CC) $(FLAG) $(INC) $< -c -o $@
+	$(CC) -g $(FLAG) $(INC) $< -c -o $@
 
 clean:
 	rm -rf $(OBJ)
