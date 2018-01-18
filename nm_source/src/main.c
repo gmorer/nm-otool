@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/17 16:22:31 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/18 18:23:04 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ void		error(enum e_rror error)
 	exit(error + 1);
 }
 
-static int	arch_separator(char *bin, size_t bin_size, char *name)
+ int	arch_separator(char *bin, size_t bin_size, char *name)
 {
 	t_list		*list;
 	char		arch;
 
+	bin = endian_auto_reverse(bin, bin_size);
 	if (*(unsigned int*)bin == MH_MAGIC_64)
 		list = mach_o(bin, bin_size,
 				(arch = 64));
@@ -49,14 +50,14 @@ static int	arch_separator(char *bin, size_t bin_size, char *name)
 	else if (*(unsigned int*)bin == FAT_MAGIC_64)
 		list = fat_o(bin, bin_size,
 				(arch = 32), name);
-	else if (*(unsigned int*)bin == FAT_CIGAM)
-		list = fat_o(reverse_endian(bin, bin_size), bin_size,
-				(arch = 32), name);
 	else if (*(unsigned int*)bin == FAT_MAGIC)
 		list = fat_o(bin, bin_size,
 				(arch = 32), name);
 	else
+	{
+		printf("%u\n", *(unsigned int*)bin);
 		error(ARCH_ERR);
+	}
 	sort(list);
 	print(list, arch);
 	free_list(list);

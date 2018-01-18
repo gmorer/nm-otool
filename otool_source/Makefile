@@ -6,12 +6,12 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2017/12/14 17:35:02 by gmorer           ###   ########.fr        #
+#    Updated: 2018/01/18 17:44:14 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
-NAME= otool
+NAME= ft_otool
 FLAG= -Werror -Wextra -Wall
 CPATH= src/
 OPATH= obj/

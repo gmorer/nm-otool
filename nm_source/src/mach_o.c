@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/16 12:57:53 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/18 19:33:59 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,18 @@ static void	*get_symtab(char *bin, size_t bin_size, char arch)
 	index = 0;
 	lc = (void*)bin + (arch == 32 ? sizeof(struct mach_header) :
 			sizeof(struct mach_header_64));
+	printf("num cmds: %u\n", hdr->ncmds);
 	while (index < hdr->ncmds && (void*)lc < bin_size + (void*)bin)
 	{
 		if (lc->cmd == LC_SYMTAB)
 			break ;
 		lc = (void*)lc + lc->cmdsize;
 		index++;
+		printf("index: %u, bin size: %p, lc: %p\n", index, bin + bin_size, lc);
 	}
 	if ((void*)lc > bin_size + (void*)bin)
 		error(CORR_BIN);
-	if (index > hdr->ncmds)
+	if (index == hdr->ncmds)
 		return (NULL);
 	return ((void*)lc);
 }
@@ -47,10 +49,12 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 
 	if ((sym = (struct symtab_command*)get_symtab(bin, bin_size, arch)) == NULL)
 		return (NULL);
+	printf("symtab: %p, bin : %p\n", sym, bin);
 	i = -1;
 	head = NULL;
 	array32 = (void*)bin + sym->symoff;
 	array64 = (void*)bin + sym->symoff;
+	printf("strtab: %u, bin len: %zu\n", sym->stroff, bin_size);
 	while (++i < sym->nsyms)
 		if (arch == 64)
 			new_elem(&head, (void*)bin + sym->stroff + array64[i].n_un.n_strx,

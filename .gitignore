@@ -7,3 +7,4 @@ otool_source/otool
 nm_source/nm
 *.swp
 *.o
+*.a

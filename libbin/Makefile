@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 11:36:51 by gmorer            #+#    #+#              #
-#    Updated: 2018/01/17 16:15:26 by gmorer           ###   ########.fr        #
+#    Updated: 2018/01/18 16:29:23 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ $(NAME) : $(OBJ)
 
 $(OPATH)%.o : $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-	$(CC) $(INC) $< -c -o $@
+	$(CC) -g $(INC) $< -c -o $@
 
 clean :
 	rm -f $(OBJ)
