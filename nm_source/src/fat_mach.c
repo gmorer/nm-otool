@@ -6,12 +6,24 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:05:28 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/18 18:20:01 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/22 16:03:57 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 #include <stdio.h>
+
+static void	ft_putstr(char *str)
+{
+	int i;
+
+	if (!str)
+		return;
+	i = 0;
+	while (str[i])
+		i++;
+	write(1, str, i);
+}
 
 t_list		*fat_o(char *bin, size_t bin_size, char arch, char *name)
 {
@@ -27,8 +39,11 @@ t_list		*fat_o(char *bin, size_t bin_size, char arch, char *name)
 	(void)bin_size;
 	while (len)
 	{
-		printf("\n%s  (for architecture %s)\n", name, get_cpu_type(arch == 64 ?
-					hdr_64->cputype : hdr_32->cputype));
+		write(1, "\n", 1);
+		ft_putstr(name);
+		write(1, " (for architecture ", 19);
+		ft_putstr(get_cpu_type(arch == 64 ? hdr_64->cputype : hdr_32->cputype));
+		write(1, "):\n", 3);
 		if (arch == 64)
 			arch_separator(bin + hdr_64->offset, hdr_64->size, name);
 		else

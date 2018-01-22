@@ -1,5 +1,5 @@
-nm
-otool
+ft_nm
+ft_otool
 .git
 nm_source/obj
 otool_source/obj

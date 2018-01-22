@@ -6,38 +6,12 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/18 19:33:59 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/22 16:10:31 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 #include <stdio.h>
-
-static void	*get_symtab(char *bin, size_t bin_size, char arch)
-{
-	struct mach_header		*hdr;
-	struct load_command		*lc;
-	unsigned int			index;
-
-	hdr = (struct mach_header*)bin;
-	index = 0;
-	lc = (void*)bin + (arch == 32 ? sizeof(struct mach_header) :
-			sizeof(struct mach_header_64));
-	printf("num cmds: %u\n", hdr->ncmds);
-	while (index < hdr->ncmds && (void*)lc < bin_size + (void*)bin)
-	{
-		if (lc->cmd == LC_SYMTAB)
-			break ;
-		lc = (void*)lc + lc->cmdsize;
-		index++;
-		printf("index: %u, bin size: %p, lc: %p\n", index, bin + bin_size, lc);
-	}
-	if ((void*)lc > bin_size + (void*)bin)
-		error(CORR_BIN);
-	if (index == hdr->ncmds)
-		return (NULL);
-	return ((void*)lc);
-}
 
 t_list		*mach_o(char *bin, size_t bin_size, char arch)
 {
@@ -49,20 +23,30 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 
 	if ((sym = (struct symtab_command*)get_symtab(bin, bin_size, arch)) == NULL)
 		return (NULL);
-	printf("symtab: %p, bin : %p\n", sym, bin);
 	i = -1;
 	head = NULL;
 	array32 = (void*)bin + sym->symoff;
 	array64 = (void*)bin + sym->symoff;
-	printf("strtab: %u, bin len: %zu\n", sym->stroff, bin_size);
+	//printf("symoff: %u, arch: %c, nsyms: %u\n",sym->symoff, arch, sym->nsyms);
 	while (++i < sym->nsyms)
-		if (arch == 64)
+		if (arch == 64 && (array64[i].n_type == 1 || array64[i].n_type == 14 || array64[i].n_type == 15))
+		{
+			//printf("type: %d, sect: %d, dec: %d, value: %llu, name: %s\n",
+			//		array64[i].n_type, array64[i].n_sect, array64[i].n_desc,
+			//		array64[i].n_value, (void*)bin + sym->stroff + array64[i].n_un.n_strx);
 			new_elem(&head, (void*)bin + sym->stroff + array64[i].n_un.n_strx,
 				array64[i].n_sect == 8 ? 8 :
 				array64[i].n_type, array64[i].n_value);
-		else
+		}
+		else if (arch == 32/* && (array32[i].n_type == 1 || array32[i].n_type == 14 || array32[i].n_type == 15 ||
+							  array32[i].n_type == 0 || array32[i].n_type == 3 || array32[i].n_type == 30)*/)
+		{
+			//printf("type: %d, sect: %d, dec: %d, value: %d, name: %s\n",
+			//		array32[i].n_type, array32[i].n_sect, array32[i].n_desc,
+			//		array32[i].n_value, (void*)bin + sym->stroff + array32[i].n_un.n_strx);
 			new_elem(&head, (void*)bin + sym->stroff + array32[i].n_un.n_strx,
 				array32[i].n_sect == 8 ? 8 :
 				array32[i].n_type, array32[i].n_value);
+		}
 	return (head);
 }
