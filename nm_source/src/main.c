@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/22 15:12:51 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/01/23 13:39:00 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void		error(enum e_rror error)
 	else if (*(unsigned int*)bin == FAT_MAGIC)
 		list = fat_o(bin, bin_size,
 				(arch = 32), name);
+	else if (*(unsigned int*)bin == 0x213c6172)
+		list = arch(bin, bin_size);
 	else
 	{
 		printf("%u\n", *(unsigned int*)bin);
