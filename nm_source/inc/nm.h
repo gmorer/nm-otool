@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:19:32 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/23 13:42:45 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/12 16:03:35 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_list
 	struct s_list*		next;
 }				t_list;
 
+t_list	*arch(char *bin, size_t bin_size);
 t_list	*mach_o(char *bin, size_t bin_size, char arch);
 t_list	*fat_o(char *bin, size_t bin_size, char arch, char *name);
-t_list	*fat_o(char *bin, size_t bin_size);
 int		arch_separator(char *bin, size_t bin_size, char *name);
 void	new_elem(t_list **head, char *name, char type, size_t offset);
 void	free_list(t_list *list);
