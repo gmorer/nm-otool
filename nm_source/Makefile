@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2018/01/23 13:39:39 by gmorer           ###   ########.fr        #
+#    Updated: 2018/02/13 11:11:29 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,7 @@ CFILES= main.c \
 		sort.c \
 		print.c \
 		list.c \
-		fat_mach.c \
-		arch.c
+		fat_mach.c
 OFILES= $(CFILES:.c=.o)
 HFILES= inc/nm.h\
 		../libbin/inc/libbin.h
