@@ -6,12 +6,14 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:05:28 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/23 12:02:20 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/14 11:07:59 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 #include <stdio.h>
+
+#define CPU_ARCH_ABI64  0x01000000
 
 static void	ft_putstr(char *str)
 {
@@ -25,18 +27,27 @@ static void	ft_putstr(char *str)
 	write(1, str, i);
 }
 
-static		int not_present_before(char *bin, size_t n, char arch)
+static		int is_good(char *bin, size_t n, char arch)
 {
 	unsigned int	cpu;
 	size_t			i;
 
 	cpu = *(unsigned int*)(bin + 8 + (n * (arch == 64 ? 24 : 20)));
 	i = 0;
-	while (i < n)
+	while (i < *(unsigned int*)(bin + 4))
 	{
+		if (i != n)
+		{
 		if (*(unsigned int*)(bin + 8 + (i * (arch == 64 ? 24 : 20))) == cpu)
 		{
+			printf("nann\n");
+			/* a theck si il es le dernier */
 			return (0);
+		}
+		if (*(unsigned int*)(bin + 8 + (i * (arch == 64 ? 24 : 20))) == (cpu | CPU_ARCH_ABI64))
+			return (0);
+		if ((*(unsigned int*)(bin + 8 + (i * (arch == 64 ? 24 : 20))) | CPU_ARCH_ABI64 ) == cpu)
+			return (1);
 		}
 		i++;
 	}
@@ -58,7 +69,7 @@ static		int count_bin(char *bin, size_t bin_size, char arch)
 	hdr_64 = (struct fat_arch_64*)(bin + 8);
 	while (i < len && i * (arch == 64 ? sizeof(*hdr_64) : sizeof(*hdr_32)) + 8 < bin_size)
 	{
-		if (not_present_before(bin, i, arch))
+		if (is_good(bin, i, arch))
 			rslt++;
 		i++;
 	}
@@ -89,7 +100,7 @@ t_list		*fat_o(char *bin, size_t bin_size, char arch, char *name)
 			ft_putstr(get_cpu_type(arch == 64 ? hdr_64->cputype : hdr_32->cputype));
 			write(1, "):\n", 3);
 		}
-		if (not_present_before(bin, i, arch))
+		if (is_good(bin, i, arch))
 		{
 			if (arch == 64)
 				arch_separator(bin + hdr_64->offset, hdr_64->size, name);
