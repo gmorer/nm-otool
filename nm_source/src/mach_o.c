@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 13:37:47 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:51:11 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 		{
 			new_elem(&head, (void*)bin + sym->stroff + array32[i].n_un.n_strx,
 					type((uint16_t)((array32[i].n_sect << 8) | array32[i].n_type)
-						, bin, bin_size, arch), array64[i].n_value);
+						, bin, bin_size, arch), array32[i].n_value);
 		}
 	return (head);
 }
