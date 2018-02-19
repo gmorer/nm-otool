@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:05:28 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/14 11:07:59 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 15:12:01 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 #include <stdio.h>
 
 #define CPU_ARCH_ABI64  0x01000000
-
-static void	ft_putstr(char *str)
-{
-	int i;
-
-	if (!str)
-		return;
-	i = 0;
-	while (str[i])
-		i++;
-	write(1, str, i);
-}
 
 static		int is_good(char *bin, size_t n, char arch)
 {

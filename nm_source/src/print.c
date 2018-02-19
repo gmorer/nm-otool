@@ -6,24 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 13:40:49 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 15:10:42 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
-
-static void	ft_putstr(char *str)
-{
-	size_t i;
-
-	if (!str)
-		return ;
-	i = 0;
-	while (str[i])
-		i++;
-	write(1, str, i);
-	return ;
-}
 
 static void	print_hex(char c)
 {

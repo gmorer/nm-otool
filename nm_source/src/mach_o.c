@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 13:51:11 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 14:42:07 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static char	section_type(char *bin, size_t bin_size, char arch, char n)
 
 	if ((str = get_secttab(bin, bin_size, arch, n)) == NULL)
 		return ('S');
-	else if (ft_strcmp(str, "__text") == 0)
+//	printf("%s\n", str);
+	if (ft_strcmp(str, "__text") == 0)
 		return ('T');
 	else if (ft_strcmp(str, "__bss") == 0)
 		return ('B');
@@ -90,7 +91,7 @@ static char	type(uint16_t sectype, char *bin, size_t bin_size, char arch)
 
 	type = sectype;
 	sec = sectype >> 8;
-	if ((type & N_TYPE) == N_UNDF)
+	if ((type & N_TYPE) == N_UNDF && sec == 0)// PPC architecture isnt working
 		ret = 'U';
 	else if ((type & N_TYPE) == N_ABS)
 		ret = 'A';

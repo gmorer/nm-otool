@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/13 11:12:28 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 15:14:09 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		error(enum e_rror error)
 	exit(error + 1);
 }
 
- int	arch_separator(char *bin, size_t bin_size, char *name)
+int	arch_separator(char *bin, size_t bin_size, char *name)
 {
 	t_list		*list;
 	char		arch;
@@ -64,25 +64,42 @@ void		error(enum e_rror error)
 	return (1);
 }
 
-int			main(int ac, char **av)
+static int	loop(char *file)
 {
 	int			fd;
 	struct stat	metadata;
 	void		*bin;
 
-	if (ac < 2)
-		error(ARG);
-	if ((fd = open(av[1], O_RDONLY)) == -1)
+	if ((fd = open(file, O_RDONLY)) == -1)
 		error(OPEN);
 	if (fstat(fd, &metadata) == -1)
 		error(FSTAT);
 	if ((bin = mmap(0, (size_t)metadata.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
 					fd, 0)) == MAP_FAILED)
 		error(MMAP);
-	arch_separator(bin, metadata.st_size, av[1]);
+	arch_separator(bin, metadata.st_size, file);
 	if (munmap(bin, (size_t)metadata.st_size) == -1)
 		error(MMAP);
 	if (close(fd) == -1)
 		error(CLOSE);
+	return (1);
+}
+
+int			main(int ac, char **av)
+{
+	if (ac < 2)
+		error(ARG);
+	av += 1;
+	if (ac > 2)
+		while (*av)
+		{
+			write(1, "\n", 1);
+			ft_putstr(*av);
+			write(1, ":\n", 2);
+			loop(*av);
+			av += 1;
+		}
+	else
+		loop(av[1]);
 	return (1);
 }

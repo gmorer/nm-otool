@@ -6,11 +6,24 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 13:16:04 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 13:33:57 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 15:10:31 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libbin.h"
+
+void	 ft_putstr(char *str)
+{
+	size_t i;
+
+	if (!str)
+		return ;
+	i = 0;
+	while (str[i])
+		i++;
+	write(1, str, i);
+	return ;
+}
 
 int		ft_strcmp(char *str1, char *str2)
 {
