@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 14:42:07 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 17:44:43 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 static char	*check_segment(void *addr, size_t *j, char arch, char n)
 {
-	struct section_64   *sect_64;
-	struct section      *sect_32;
-	size_t              i;
+	struct section_64	*sect_64;
+	struct section		*sect_32;
+	size_t				i;
 
 	i = 0;
 	sect_32 = (void*)(addr + (arch == 64 ? sizeof(struct segment_command_64) :
@@ -44,11 +44,11 @@ static char	*check_segment(void *addr, size_t *j, char arch, char n)
 
 static char	*get_secttab(char *bin, size_t bin_size, char arch, char n)
 {
-	struct load_command     *lc;
-	unsigned int            index;
-	size_t                  i;
-	char                    *rslt;
-	size_t                  j;
+	struct load_command		*lc;
+	unsigned int			index;
+	size_t					i;
+	char					*rslt;
+	size_t					j;
 
 	index = 0;
 	j = 1;
@@ -73,7 +73,6 @@ static char	section_type(char *bin, size_t bin_size, char arch, char n)
 
 	if ((str = get_secttab(bin, bin_size, arch, n)) == NULL)
 		return ('S');
-//	printf("%s\n", str);
 	if (ft_strcmp(str, "__text") == 0)
 		return ('T');
 	else if (ft_strcmp(str, "__bss") == 0)
@@ -87,11 +86,11 @@ static char	type(uint16_t sectype, char *bin, size_t bin_size, char arch)
 {
 	uint8_t	sec;
 	uint8_t	type;
-	char ret;
+	char	ret;
 
 	type = sectype;
 	sec = sectype >> 8;
-	if ((type & N_TYPE) == N_UNDF && sec == 0)// PPC architecture isnt working
+	if ((type & N_TYPE) == N_UNDF && sec == 0)
 		ret = 'U';
 	else if ((type & N_TYPE) == N_ABS)
 		ret = 'A';
@@ -106,31 +105,27 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 {
 	size_t					i;
 	struct symtab_command	*sym;
-	struct nlist_64			*array64;
-	struct nlist			*array32;
+	struct nlist_64			*tab64;
+	struct nlist			*tab32;
 	t_list					*head;
 
 	if ((sym = (struct symtab_command*)get_symtab(bin, bin_size, arch)) == NULL)
 		return (NULL);
 	i = -1;
 	head = NULL;
-	array32 = (void*)bin + sym->symoff;
-	array64 = (void*)bin + sym->symoff;
+	tab32 = (void*)bin + sym->symoff;
+	tab64 = (void*)bin + sym->symoff;
 	while (++i < sym->nsyms)
-		if (arch == 64 && (array64[i].n_type == 1 || array64[i].n_type == 14
-					|| array64[i].n_type == 15))
-		{
-			new_elem(&head, (void*)bin + sym->stroff + array64[i].n_un.n_strx,
-					type((uint16_t)((array64[i].n_sect << 8) | array64[i].n_type)
-						, bin, bin_size, arch), array64[i].n_value);
-		}
-		else if (arch == 32 && (array32[i].n_type == 1 || array32[i].n_type == 14
-					|| array32[i].n_type == 15 || array32[i].n_type == 0
-					|| array32[i].n_type == 3 || array32[i].n_type == 30))
-		{
-			new_elem(&head, (void*)bin + sym->stroff + array32[i].n_un.n_strx,
-					type((uint16_t)((array32[i].n_sect << 8) | array32[i].n_type)
-						, bin, bin_size, arch), array32[i].n_value);
-		}
+		if (arch == 64 && (tab64[i].n_type == 1 || tab64[i].n_type == 14
+					|| tab64[i].n_type == 15))
+			new_elem(&head, (void*)bin + sym->stroff + tab64[i].n_un.n_strx,
+					type((uint16_t)((tab64[i].n_sect << 8) | tab64[i].n_type)
+						, bin, bin_size, arch), tab64[i].n_value);
+		else if (arch == 32 && (tab32[i].n_type == 1 || tab32[i].n_type == 14
+					|| tab32[i].n_type == 15 || tab32[i].n_type == 0
+					|| tab32[i].n_type == 3 || tab32[i].n_type == 30))
+			new_elem(&head, (void*)bin + sym->stroff + tab32[i].n_un.n_strx,
+					type((uint16_t)((tab32[i].n_sect << 8) | tab32[i].n_type)
+						, bin, bin_size, arch), tab32[i].n_value);
 	return (head);
 }

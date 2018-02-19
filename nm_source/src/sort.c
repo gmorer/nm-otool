@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 14:52:06 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 13:39:10 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 17:20:53 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ static int	is_sorted(t_list *list)
 	return (1);
 }
 
-void		sort(t_list *head)
+t_list		*sort(t_list *head)
 {
 	t_data	tmp;
 	t_list	*list;
+
 	while (head && !is_sorted(head))
 	{
 		list = head;
@@ -41,4 +42,5 @@ void		sort(t_list *head)
 			list = list->next;
 		}
 	}
+	return (head);
 }

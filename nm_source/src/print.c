@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 15:10:42 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 17:18:53 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ static void	print_address(void *addr)
 	}
 }
 
-static void print_o(size_t offset, char arch)
+static void	print_o(size_t offset, char arch)
 {
 	int		i;
 	size_t	save;
-	char	*tab = "0000000000000000";
 
 	i = 0;
 	save = offset;
@@ -53,13 +52,13 @@ static void print_o(size_t offset, char arch)
 		offset = offset / 16;
 		i++;
 	}
-	write(1, tab, arch == 64 ? 15 - i : 7 - i);
+	write(1, "0000000000000000", arch == 64 ? 15 - i : 7 - i);
 	print_address((void*)save);
 }
 
 void		print(t_list *list, char arch)
 {
-	while(list)
+	while (list)
 	{
 		if (list->data.type == 'U' || list->data.type == 'u')
 			write(1, "                ", arch == 32 ? 8 : 16);
