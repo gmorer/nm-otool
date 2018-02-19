@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:55:46 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/14 14:18:04 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:40:49 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,10 @@ void		print(t_list *list, char arch)
 {
 	while(list)
 	{
-		if (list->data.type == 1)
+		if (list->data.type == 'U' || list->data.type == 'u')
 			write(1, "                ", arch == 32 ? 8 : 16);
 		else
 			print_o(list->data.offset, arch);
-		/*
-		if (list->data.type == 15)
-			write(1, " T ", 3);
-		else if (list->data.type == 14)
-			write(1, " t ", 3);
-		else if (list->data.type == 8)
-			write(1, " b ", 3);
-		else if (list->data.type == 1)
-			write(1, " U ", 3);
-		else
-			write(1, " ? ", 3);
-			*/
 		write(1, " ", 1);
 		write(1, &(list->data.type), 1);
 		write(1, " ", 1);

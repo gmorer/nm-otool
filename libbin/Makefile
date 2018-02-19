@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 11:36:51 by gmorer            #+#    #+#              #
-#    Updated: 2018/02/13 11:11:06 by gmorer           ###   ########.fr        #
+#    Updated: 2018/02/19 13:34:08 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OPATH = obj/
 CFILES =	endian.c\
 			cpu_type.c\
 			mach_o.c\
-			error.c
+			error.c\
+			lib.c
 
 HFILES = inc/libbin.h
 INC = $(addprefix -I , $(HPATH))

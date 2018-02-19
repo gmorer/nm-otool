@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:12:32 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/22 12:12:28 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:34:29 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ char		*endian_auto_reverse(char *bin, size_t len);
 char		*get_cpu_type(cpu_type_t cpu);
 void		*get_symtab(char *bin, size_t bin_size, char arch);
 void		error(enum e_rror error) __attribute__((noreturn));
+int			ft_strcmp(char *str1, char *str2);
 
 #endif
