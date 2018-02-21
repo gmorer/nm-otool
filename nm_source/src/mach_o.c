@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 17:44:43 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/21 11:35:38 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 #define NSECTS_64 (int)(&((struct segment_command_64*)(0x0))->nsects)
 #define NSECTS_32 (int)(&((struct segment_command*)(0x0))->nsects)
-#define SECTNAME_64 (int)(&((struct segment_command_64*)(0x0))->segname)
-#define SECTNAME_32 (int)(&((struct segment_command*)(0x0))->segname)
 #define HDR_NCMDS (int)(&((struct mach_header*)(0x0))->ncmds)
 
 static char	*check_segment(void *addr, size_t *j, char arch, char n)
