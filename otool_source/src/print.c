@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:49:14 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/21 16:32:50 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 13:38:00 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,46 @@ static void	print_address(uint64_t addr)
 	}
 }
 
-void	print(char *bin, uint64_t tab, uint64_t size)
+static void	write_content(char *bin, uint64_t place, uint64_t max)
 {
-	uint64_t i;
-	int		off;
+	char	i;
+
+	i = 0;
+	while (i < 16 && place + i < max)
+	{
+		if ((*(char*)(place + i + bin) & 0xff) < 16)
+			write(1, "0", 1);
+		print_address(*(char*)(place + i + bin) & 0xff);
+		write(1, " ", 1);
+		i++;
+	}
+	return ;
+}
+
+void	print(char *bin, uint64_t tab, uint64_t size, char arch)
+{
+	uint64_t 	i;
+	int			off;
+	uint64_t	tmp;
+	char		count;
 
 	off = 0;
 	i = tab;
+	write(1, "Contents of (__TEXT,__text) section\n", 36);
 	while (i < size + tab)
 	{
-		print_address(i + off);
+		count = 0;
+		tmp = i + off + (arch == 64 ? 0x100000000 : 0x1000);
+		while(tmp > 15)
+		{
+			tmp /= 16;
+			count++;
+		}
+		write(1, "0000000000000000", arch == 64 ? 15 - count : 7 - count);
+		print_address(i + off + (arch == 64 ? 0x100000000 : 0x1000));
+		write(1, "\t", 1);
+		write_content(bin, i, size + tab);
 		write(1, "\n", 1);
-		printf("%.16llx\n", i + (int)0);
 		i += 16;
 	}
 	return ;

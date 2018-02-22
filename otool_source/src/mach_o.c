@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 11:19:58 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/21 16:32:42 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 13:18:58 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
-#include <stdio.h>
 
 #define NSECTS_64 (int)(&((struct segment_command_64*)(0x0))->nsects)
 #define NSECTS_32 (int)(&((struct segment_command*)(0x0))->nsects)
@@ -76,8 +75,6 @@ void	mach_o(char *bin, size_t bin_size, char arch)
 		return ;
 	if (tab + size >= bin_size)
 		error(CORR_BIN);
-	printf("size: %llu\n", size);
-	printf("addr: %llu\n", tab);
-	print(bin, tab, size);
+	print(bin, tab, size, arch);
 	return ;
 }

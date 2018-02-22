@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/21 11:41:05 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 13:39:48 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
-#include <stdio.h>
 
 int			arch_separator(char *bin, size_t bin_size, char *name)
 {
@@ -61,16 +60,12 @@ int			main(int ac, char **av)
 	if (ac < 2)
 		error(ARG);
 	av += 1;
-	if (ac > 2)
-		while (*av)
-		{
-			write(1, "\n", 1);
-			ft_putstr(*av);
-			write(1, ":\n", 2);
-			loop(*av);
-			av += 1;
-		}
-	else
-		loop(av[0]);
+	while (*av)
+	{
+		ft_putstr(*av);
+		write(1, ":\n", 2);
+		loop(*av);
+		av += 1;
+	}
 	return (1);
 }

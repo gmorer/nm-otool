@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:21:20 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/21 16:32:59 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 13:24:56 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 void		mach_o(char *bin, size_t bin_size, char arch);
 void		fat_o(char *bin, size_t bin_size, char arch, char *name);
-void    	print(char *bin, uint64_t tab, uint64_t size);
-
+void    	print(char *bin, uint64_t tab, uint64_t size, char arch);
+int			arch_separator(char *bin, size_t bin_size, char *name);
 
 #endif
