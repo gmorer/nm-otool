@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:12:32 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 15:11:02 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:03:07 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@
 # include <mach-o/fat.h>
 # include <mach-o/loader.h>
 
-
 # define L_ENDIAN 0
 # define B_ENDIAN 1
 
-enum e_rror
+enum	e_rror
 {
 	ARG = 1,
 	OPEN,

@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:49:14 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 13:38:00 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:00:43 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,27 @@ static void	write_content(char *bin, uint64_t place, uint64_t max)
 	return ;
 }
 
-void	print(char *bin, uint64_t tab, uint64_t size, char arch)
+void		print(char *bin, t_section sect, char arch)
 {
-	uint64_t 	i;
-	int			off;
+	uint64_t	i;
 	uint64_t	tmp;
 	char		count;
 
-	off = 0;
-	i = tab;
+	i = 0;
 	write(1, "Contents of (__TEXT,__text) section\n", 36);
-	while (i < size + tab)
+	while (i < sect.size)
 	{
 		count = 0;
-		tmp = i + off + (arch == 64 ? 0x100000000 : 0x1000);
-		while(tmp > 15)
+		tmp = i + sect.addr;
+		while (tmp > 15)
 		{
 			tmp /= 16;
 			count++;
 		}
 		write(1, "0000000000000000", arch == 64 ? 15 - count : 7 - count);
-		print_address(i + off + (arch == 64 ? 0x100000000 : 0x1000));
+		print_address(i + sect.addr);
 		write(1, "\t", 1);
-		write_content(bin, i, size + tab);
+		write_content(bin, i + sect.offset, sect.size + sect.offset);
 		write(1, "\n", 1);
 		i += 16;
 	}

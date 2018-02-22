@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 12:09:32 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 17:04:00 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 13:45:39 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		error(enum e_rror error)
 {
-	write(2, "nm: ", 4);
 	if (error == ARG)
 		write(2, "usage: nm [FILE]\n", 17);
 	else if (error == OPEN)

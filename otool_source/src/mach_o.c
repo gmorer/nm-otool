@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 11:19:58 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 13:18:58 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:02:13 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define NSECTS_32 (int)(&((struct segment_command*)(0x0))->nsects)
 #define HDR_NCMDS (int)(&((struct mach_header*)(0x0))->ncmds)
 
-static uint64_t	check_segment(void *addr, char arch, uint64_t *size)
+static uint64_t	check_segment(void *addr, char arch, t_section *sect)
 {
 	struct section_64	*sect_64;
 	struct section		*sect_32;
@@ -29,10 +29,13 @@ static uint64_t	check_segment(void *addr, char arch, uint64_t *size)
 	while (i < *((unsigned int*)((void*)addr +
 					(arch == 64 ? NSECTS_64 : NSECTS_32))))
 	{
-		if (!ft_strcmp(arch == 64 ? sect_64->sectname : sect_32->sectname, "__text"))
+		if (!ft_strcmp(arch == 64 ? sect_64->sectname :
+					sect_32->sectname, "__text"))
 		{
-			*size = arch == 64 ? sect_64->size : sect_32->size;
-			return (arch == 64 ? sect_64->offset : sect_32->offset);
+			(*sect).size = arch == 64 ? sect_64->size : sect_32->size;
+			(*sect).addr = arch == 64 ? sect_64->addr : sect_32->addr;
+			(*sect).offset = arch == 64 ? sect_64->offset : sect_32->offset;
+			return (1);
 		}
 		sect_32 += 1;
 		sect_64 += 1;
@@ -41,12 +44,12 @@ static uint64_t	check_segment(void *addr, char arch, uint64_t *size)
 	return (0);
 }
 
-static uint64_t	get_secttab(char *bin, size_t bin_size, char arch, uint64_t *size)
+static uint64_t	get_secttab(char *bin, size_t bin_size,
+		char arch, t_section *sect)
 {
 	struct load_command		*lc;
 	unsigned int			index;
 	size_t					i;
-	uint64_t				rslt;
 
 	index = 0;
 	lc = (void*)bin + (arch == 32 ? sizeof(struct mach_header) :
@@ -56,25 +59,26 @@ static uint64_t	get_secttab(char *bin, size_t bin_size, char arch, uint64_t *siz
 	{
 		if (lc->cmd == (arch == 64 ? LC_SEGMENT_64 : LC_SEGMENT) && !(i = 0))
 		{
-			if ((rslt = check_segment((void*)lc, arch, size)))
-				return (rslt);
+			if (check_segment((void*)lc, arch, sect))
+				return (1);
 		}
 		lc = (void*)lc + lc->cmdsize;
 	}
 	return (0);
 }
 
-
-void	mach_o(char *bin, size_t bin_size, char arch)
+void			mach_o(char *bin, size_t bin_size, char arch)
 {
 	uint64_t	tab;
 	uint64_t	size;
+	t_section	sect;
 
 	size = 0;
-	if ((tab = get_secttab(bin, bin_size, arch, &size)) == 0)
+	sect.addr = 0;
+	sect.size = 0;
+	sect.offset = 0;
+	if ((tab = get_secttab(bin, bin_size, arch, &sect)) == 0)
 		return ;
-	if (tab + size >= bin_size)
-		error(CORR_BIN);
-	print(bin, tab, size, arch);
+	print(bin, sect, arch);
 	return ;
 }

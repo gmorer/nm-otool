@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:21:20 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 13:24:56 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:02:26 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@
 # include <mach-o/nlist.h>
 # include "libbin.h"
 
-void		mach_o(char *bin, size_t bin_size, char arch);
-void		fat_o(char *bin, size_t bin_size, char arch, char *name);
-void    	print(char *bin, uint64_t tab, uint64_t size, char arch);
-int			arch_separator(char *bin, size_t bin_size, char *name);
+typedef struct	s_section
+{
+	uint64_t	addr;
+	uint64_t	offset;
+	uint64_t	size;
+}				t_section;
+
+void			mach_o(char *bin, size_t bin_size, char arch);
+void			fat_o(char *bin, size_t bin_size, char arch, char *name);
+void			print(char *bin, t_section sect, char arch);
+int				arch_separator(char *bin, size_t bin_size, char *name);
 
 #endif

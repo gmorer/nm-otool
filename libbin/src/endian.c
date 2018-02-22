@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:15:36 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/22 15:35:43 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:04:49 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static char	*swap_fat(char *bin, size_t size, int arch)
 	return (bin);
 }
 
-static char *swap_mach_o(char *bin, size_t size, int arch)
+static char	*swap_mach_o(char *bin, size_t size, int arch)
 {
 	struct mach_header		*hdr;
-	struct symtab_command   *sym;
+	struct symtab_command	*sym;
 
 	reverse_endian(bin, size);
 	hdr = (struct mach_header*)bin;
@@ -65,6 +65,4 @@ char		*endian_auto_reverse(char *bin, size_t size)
 	else if (*(unsigned int*)bin == FAT_CIGAM_64)
 		return (swap_fat(bin, size, 64));
 	return (bin);
-
-
 }

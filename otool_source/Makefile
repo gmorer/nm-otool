@@ -6,13 +6,13 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 17:10:31 by gmorer            #+#    #+#              #
-#    Updated: 2018/02/21 15:00:37 by gmorer           ###   ########.fr        #
+#    Updated: 2018/02/22 14:55:56 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
 NAME= ft_otool
-FLAG= -Werror -Wextra -Wall
+FLAG= -Werror -Wextra -Wall -g
 CPATH= src/
 OPATH= obj/
 HPATH= inc/ ../libbin/inc/
@@ -31,11 +31,11 @@ INC= $(addprefix -I, $(HPATH))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) ../libbin/libbin.a -o $(NAME)
+	$(CC) $(FLAG) $(OBJ) ../libbin/libbin.a -o $(NAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-	$(CC) $(INC) $< -c -o $@
+	$(CC) $(FLAG) $(INC) $< -c -o $@
 
 clean:
 	rm -rf $(OBJ)
