@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:15:36 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 15:04:49 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:11:41 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libbin.h"
-#include <stdio.h>
 
 static char	*reverse_endian(char *bin, size_t len)
 {

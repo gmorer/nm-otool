@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/21 11:35:38 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/23 16:01:44 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
-#include <stdio.h>
 
 #define NSECTS_64 (int)(&((struct segment_command_64*)(0x0))->nsects)
 #define NSECTS_32 (int)(&((struct segment_command*)(0x0))->nsects)
@@ -92,6 +91,8 @@ static char	type(uint16_t sectype, char *bin, size_t bin_size, char arch)
 		ret = 'U';
 	else if ((type & N_TYPE) == N_ABS)
 		ret = 'A';
+	else if ((type & N_TYPE) == N_INDR)
+		ret = 'I';
 	else if ((type & N_TYPE) == N_SECT)
 		ret = section_type(bin, bin_size, arch, sec);
 	else
@@ -114,8 +115,9 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 	tab32 = (void*)bin + sym->symoff;
 	tab64 = (void*)bin + sym->symoff;
 	while (++i < sym->nsyms)
-		if (arch == 64 && (tab64[i].n_type == 1 || tab64[i].n_type == 14
-					|| tab64[i].n_type == 15))
+		if (arch == 64 && && (tab64[i].n_type == 1 || tab64[i].n_type == 14
+					|| tab64[i].n_type == 15 || tab64[i].n_type == 0
+					|| tab64[i].n_type == 3 || tab64[i].n_type == 30))
 			new_elem(&head, (void*)bin + sym->stroff + tab64[i].n_un.n_strx,
 					type((uint16_t)((tab64[i].n_sect << 8) | tab64[i].n_type)
 						, bin, bin_size, arch), tab64[i].n_value);

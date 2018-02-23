@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 17:20:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/19 17:04:48 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:12:25 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
-#include <stdio.h>
 
 int			arch_separator(char *bin, size_t bin_size, char *name)
 {

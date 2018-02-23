@@ -6,13 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:49:14 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 15:00:43 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:12:35 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
-
-#include <stdio.h>
 
 static void	print_hex(char c)
 {

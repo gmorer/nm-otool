@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 11:55:49 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/22 15:04:12 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:11:47 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libbin.h"
-#include "stdio.h"
 
 void		*get_symtab(char *bin, size_t bin_size, char arch)
 {

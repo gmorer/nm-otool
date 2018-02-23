@@ -6,12 +6,11 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 16:18:15 by gmorer            #+#    #+#             */
-/*   Updated: 2018/01/22 15:05:23 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/22 15:11:33 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libbin.h"
-#include <stdio.h>
 
 static char	*another_cpu(cpu_type_t cpu)
 {
