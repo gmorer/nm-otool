@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 13:28:16 by gmorer            #+#    #+#             */
-/*   Updated: 2018/02/23 16:01:44 by gmorer           ###   ########.fr       */
+/*   Updated: 2018/02/23 16:03:43 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_list		*mach_o(char *bin, size_t bin_size, char arch)
 	tab32 = (void*)bin + sym->symoff;
 	tab64 = (void*)bin + sym->symoff;
 	while (++i < sym->nsyms)
-		if (arch == 64 && && (tab64[i].n_type == 1 || tab64[i].n_type == 14
+		if (arch == 64 && (tab64[i].n_type == 1 || tab64[i].n_type == 14
 					|| tab64[i].n_type == 15 || tab64[i].n_type == 0
 					|| tab64[i].n_type == 3 || tab64[i].n_type == 30))
 			new_elem(&head, (void*)bin + sym->stroff + tab64[i].n_un.n_strx,
